@@ -7,7 +7,6 @@ pragma solidity 0.8.17;
  */
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-//TODO: change to safeERC20
 
 /**
  * users send ETH, and receives liquid Tokens in a 1:1 ratio.
@@ -16,45 +15,46 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
  * quidETH is an erc20 token.
  */
 
-using SafeERC20 for ERC20;
+using SafeERC20 for IERC20;
 
 contract LiquidStaking is ERC20("quidETH","qETH"){
+
     struct User {
-        uint stakedETH;
-        uint timeStamp;
+        uint totalStake;
+        uint initTime;
     }
 
-    struct Validator{
-        Status status;
-        address[] stakers;
-    }
 
-    enum Status {
-        PENDING,FULL,CLOSE
-    }
+    mapping(address=> User) users;
 
-    mapping(address => User) private stakes;
-    Validator[] validators;
 
+   
     receive() external payable {
-        stakes[msg.sender].timeStamp = block.timestamp;
-        stakes[msg.sender].stakedETH += msg.value;
         _mint(msg.sender, msg.value);
     }
 
     function unstake(uint _amount) external {
         require(balanceOf(msg.sender) >= _amount, "not enough balance");
         _burn(msg.sender, _amount);
-        uint reward = _reward(stakes[msg.sender]);
-        (bool sent,) = msg.sender.call{value: _amount + reward}("");   //!\\
-        require(sent, "not sent");
+        (bool sent,) = msg.sender.call{value: _amount}("");
+        require(sent);
     }
 
     //sets a hardcoded 4.5 APR
     //ALERT: years are not exactly 52 weeks. Use external oracle
-    function _reward(User memory _user) internal view returns (uint reward){
-        uint duration = block.timestamp - _user.timeStamp;
-        reward = (_user.stakedETH  * 45 / 1000) / 52 weeks * duration ;
+    function _reward(User memory _user) internal view returns (uint finalReward){
+        uint duration = block.timestamp - _user.initTime;
+        uint reward = (_user.totalStake  * 45 / 1000) / 52 weeks * duration ;
+        uint cut = reward *10 /100;
+        finalReward = reward - cut;
+    }
+
+    function claim() external returns(bool){
+        uint r =_reward(users[msg.sender]);
+        users[msg.sender].initTime = block.timestamp;
+        (bool sent,) = msg.sender.call{value: r}("");
+        require(sent);
+        return true;
     }
 
 
