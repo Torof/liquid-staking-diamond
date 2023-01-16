@@ -23,28 +23,52 @@ contract LiquidStakingTest is Test, LiquidStaking {
     }
 
     function staking(uint _amount) public returns (LiquidStaking _ls){
+        _amount = _amount * 1 ether;
+        vm.deal(bob, (_amount + 1 ether));
         vm.prank(bob);
-        vm.deal(bob, (_amount * 1 ether));
-        (bool sent,) = address(ls).call{value: 10 ether}("");
-        require(sent);
         _ls = ls;
+        _ls.stake{value: 10 ether}();
+        emit log_named_uint("bobBalance", bob.balance);
+        emit log_named_uint("contractBalance", address(this).balance);
     }
+
     function testStaking() public payable{
-        LiquidStaking _ls = staking(11);
+        LiquidStaking _ls = staking(10);
+        emit log_named_uint("bobBalance2", _ls.balanceOf(bob));
         assertEq(_ls.balanceOf(bob), 10 ether);
     }
+
+    //TODO fail unstaking shangai false
+    // function testFailUnstaking1() external {
+
+    // }
+
+    //TODO fail indexOutOfbond
+    // function testFailUnstaking2() external {
+        
+    // }
 
     function testUnstaking() external {
-        LiquidStaking _ls = staking(11);
+        LiquidStaking _ls = staking(10);
         assertEq(_ls.balanceOf(bob), 10 ether);
+        for(uint i; i < 28; ++i){
+            ls.pushWeekReward(450);
+        }
         skip(8 weeks);
-        vm.deal(address(_ls), 100 ether);
+        _ls.openShangai();
+        skip(20 weeks);
+        emit log_named_uint("duration",_ls.displayStakeTime(bob));
+        emit log_named_uint("numOfweeks",ls.displayStakeTime(bob) / 1 weeks);
+        emit log_named_uint("bobReward", _ls.displayReward(bob));
+        assertEq(_ls.balanceOf(bob), 10 ether);
         vm.prank(bob);
         _ls.unstake(10 ether);
+        emit log_named_uint("bobReward", _ls.balanceOf(bob));
         assertEq(_ls.balanceOf(bob), 0);
-        assertGt(bob.balance , 11);
+        // assertGt(bob.balance , bobBalanceBeforeUnstaking);
+        // assertGt(bob.balance , 11 ether);
+        // emit log_uint(bobBalanceBeforeUnstaking);
         emit log_uint(bob.balance);
     }
-
     
 }

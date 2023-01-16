@@ -1,0 +1,111 @@
+{
+  "abi": [],
+  "bytecode": {
+    "object": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220ec1c1994d80bf92cf363652abdaeffd562aec9a8b4db4b31fcd5741abdf39f4c64736f6c63430008110033",
+    "sourceMap": "76:28:1:-:0;;;;;;;;;;;;;;;;;;;",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x6080604052600080fdfea2646970667358221220ec1c1994d80bf92cf363652abdaeffd562aec9a8b4db4b31fcd5741abdf39f4c64736f6c63430008110033",
+    "sourceMap": "76:28:1:-:0;;;;;",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {},
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/Validators.sol\":\"Validators\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[\":@openzeppelin/=node_modules/@openzeppelin/\",\":contracts/=contracts/\",\":ds-test/=lib/forge-std/lib/ds-test/src/\",\":eth-gas-reporter/=node_modules/eth-gas-reporter/\",\":forge-std/=lib/forge-std/src/\",\":hardhat/=node_modules/hardhat/\"]},\"sources\":{\"contracts/Validators.sol\":{\"keccak256\":\"0x8e6af33605962ef2fb59502579f9e26805247cf625e0776b572613808e50aa47\",\"license\":\"SEE LICENSE IN LICENSE\",\"urls\":[\"bzz-raw://b07ee280e4ce5bbbf3e5ae27a9fbc0b6c8d8ea53f23ca686e53f9a239b74cca4\",\"dweb:/ipfs/QmWDFuUTndy12ggiwTegn8eavnskawBAHdVgccqnbPpVoT\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": {
+      "version": "0.8.17+commit.8df45f5f"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {},
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {},
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        ":@openzeppelin/=node_modules/@openzeppelin/",
+        ":contracts/=contracts/",
+        ":ds-test/=lib/forge-std/lib/ds-test/src/",
+        ":eth-gas-reporter/=node_modules/eth-gas-reporter/",
+        ":forge-std/=lib/forge-std/src/",
+        ":hardhat/=node_modules/hardhat/"
+      ],
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "compilationTarget": {
+        "contracts/Validators.sol": "Validators"
+      },
+      "libraries": {}
+    },
+    "sources": {
+      "contracts/Validators.sol": {
+        "keccak256": "0x8e6af33605962ef2fb59502579f9e26805247cf625e0776b572613808e50aa47",
+        "urls": [
+          "bzz-raw://b07ee280e4ce5bbbf3e5ae27a9fbc0b6c8d8ea53f23ca686e53f9a239b74cca4",
+          "dweb:/ipfs/QmWDFuUTndy12ggiwTegn8eavnskawBAHdVgccqnbPpVoT"
+        ],
+        "license": "SEE LICENSE IN LICENSE"
+      }
+    },
+    "version": 1
+  },
+  "ast": {
+    "absolutePath": "contracts/Validators.sol",
+    "id": 412,
+    "exportedSymbols": {
+      "Validators": [
+        411
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "51:53:1",
+    "nodes": [
+      {
+        "id": 410,
+        "nodeType": "PragmaDirective",
+        "src": "51:23:1",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          "0.8",
+          ".17"
+        ]
+      },
+      {
+        "id": 411,
+        "nodeType": "ContractDefinition",
+        "src": "76:28:1",
+        "nodes": [],
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "Validators",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "linearizedBaseContracts": [
+          411
+        ],
+        "name": "Validators",
+        "nameLocation": "85:10:1",
+        "scope": 412,
+        "usedErrors": []
+      }
+    ],
+    "license": "SEE LICENSE IN LICENSE"
+  },
+  "id": 1
+}
