@@ -27,7 +27,7 @@ contract LiquidStakingTest is Test, LiquidStaking {
         vm.deal(bob, (_amount + 1 ether));
         vm.prank(bob);
         _ls = ls;
-        _ls.stake{value: 10 ether}();
+        _ls.deposit{value: 10 ether}();
         emit log_named_uint("bobBalance", bob.balance);
         emit log_named_uint("contractBalance", address(this).balance);
     }
@@ -62,7 +62,7 @@ contract LiquidStakingTest is Test, LiquidStaking {
         emit log_named_uint("bobReward", _ls.displayReward(bob));
         assertEq(_ls.balanceOf(bob), 10 ether);
         vm.prank(bob);
-        _ls.unstake(10 ether);
+        _ls.withdraw(10 ether);
         emit log_named_uint("bobReward", _ls.balanceOf(bob));
         assertEq(_ls.balanceOf(bob), 0);
         // assertGt(bob.balance , bobBalanceBeforeUnstaking);

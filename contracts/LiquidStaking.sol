@@ -43,7 +43,7 @@ contract LiquidStaking is ERC20("quidETH", "qETH") {
     // =======================================
 
     //ALERT until SHANGAÏ, unstaking is disallowed
-    function unstake(uint _amount) external {
+    function withdraw(uint _amount) external {
         require(SHANGAI, "shangai not released"); //PROD: better message
         require(users[msg.sender].totalUserStake - _amount >= 0, "underflow"); //PROD: better message
         users[msg.sender].totalUserStake -= _amount;
@@ -55,7 +55,7 @@ contract LiquidStaking is ERC20("quidETH", "qETH") {
     }
 
     //CHECK set a minimum staking limit ?
-    function stake() external payable {
+    function deposit() external payable {
         _mint(msg.sender, msg.value);
         users[msg.sender].totalUserStake += msg.value;
         totalStakes += msg.value;
@@ -114,7 +114,7 @@ contract LiquidStaking is ERC20("quidETH", "qETH") {
     }
 
     /**
-     * @dev APR should be multiplied by 100 to preserve 2 decimal points.
+     * @dev APR is be multiplied by 1_000_000 to preserve decimal points.
      */
     function _calculateAverageAPR(
         uint _duration
