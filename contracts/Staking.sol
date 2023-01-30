@@ -9,6 +9,7 @@ pragma solidity 0.8.17;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "./interfaces/IStaking.sol";
+import {Rewards} from "./libraries/Rewards.sol";
 
 /**
  * users send ETH, and receives liquid Tokens in a 1:1 ratio.
@@ -30,7 +31,7 @@ contract Staking is ERC20("quidETH", "qETH") {
 
     struct User {
         uint totalUserStake;
-        uint initTime;
+        address[] pools;
     }
 
     //TODO add events
@@ -50,7 +51,7 @@ contract Staking is ERC20("quidETH", "qETH") {
         _mint(msg.sender, msg.value);
         users[msg.sender].totalUserStake += msg.value;
         totalStakes += msg.value;
-        if (users[msg.sender].totalUserStake == 0) _claim(msg.sender);
+        if (users[msg.sender].totalUserStake == 0) Rewards._claim(msg.sender);
     }
 
     //ALERT until SHANGAÏ, unstaking is disallowed
@@ -71,7 +72,7 @@ contract Staking is ERC20("quidETH", "qETH") {
 
 
     function claim() public returns (bool claimed) {
-        claimed = _claim(msg.sender);
+        claimed = Rewards._claim(msg.sender);
     }
 
 
@@ -89,68 +90,70 @@ contract Staking is ERC20("quidETH", "qETH") {
         SHANGAI = true;
     }
 
-    // ========================================
-    //         INTERNAL
-    // ========================================
+    // // ========================================
+    // //         INTERNAL
+    // // ========================================
 
-        //TODO: try/catch
-    function _claim(address _user) internal returns (bool) {
-        uint r = _calculateReward(users[_user]);
-        users[_user].initTime = block.timestamp;
-        users[_user].totalUserStake = 0;
-        (bool sent, ) = _user.call{value: r}("");
-        require(sent, "ether not sent"); //PROD better message
-        emit Claimed(r, sent);
-        return true;
-    }
+    //     //TODO: try/catch
+    // function _claim(address _user) internal returns (bool) {
+    //     uint r = _calculateReward(users[_user]);
+    //     users[_user].initTime = block.timestamp;
+    //     users[_user].totalUserStake = 0;
+    //     (bool sent, ) = _user.call{value: r}("");
+    //     require(sent, "ether not sent"); //PROD better message
+    //     emit Claimed(r, sent);
+    //     return true;
+    // }
 
-    /**
-     * @dev APR is calculated from the average of each week's APR
-     * @notice the APR should be divided by 100 since it was multiplied by 100 to preserve 2 decimal points
-     *
-     */
-    //ALERT years are not exactly 52 weeks. Use external oracle
-    function _calculateReward(
-        User memory _user
-    ) internal view returns (uint reward) {
-        require(block.timestamp - _user.initTime > 0, "ovf"); //PROD better message
-        uint duration = block.timestamp - _user.initTime;
-        uint averageAPR = _calculateAverageAPR(duration);
-        reward =
-            (((_user.totalUserStake * averageAPR) / DECIMALS_PRESERVATION) /
-                52 weeks) *
-            duration;
-    }
+    // /**
+    //  * @dev APR is calculated from the average of each week's APR
+    //  * @notice the APR should be divided by 100 since it was multiplied by 100 to preserve 2 decimal points
+    //  *
+    //  */
+    // //ALERT years are not exactly 52 weeks. Use external oracle
+    // function _calculateReward(
+    //     User memory _user
+    // ) internal view returns (uint reward) {
+    //     require(block.timestamp - _user.initTime > 0, "ovf"); //PROD better message
+    //     uint duration = block.timestamp - _user.initTime;
+    //     uint averageAPR = _calculateAverageAPR(duration);
+    //     reward =
+    //         (((_user.totalUserStake * averageAPR) / DECIMALS_PRESERVATION) /
+    //             52 weeks) *
+    //         duration;
+    // }
 
-    /**
-     * @dev APR is be multiplied by 1_000_000 to preserve decimal points.
-     */
-    function _calculateAverageAPR(
-        uint _duration
-    ) internal view returns (uint averageAPR) {
-        require(weeklyAPR.length > 0, "empty APR list"); //PROD better message
-        uint numOfWeeks = _duration / 1 weeks;
-        require(numOfWeeks == weeklyAPR.length, "length mismatch");
-        uint APRsum;
-        uint length = weeklyAPR.length;
-        uint j = weeklyAPR.length - numOfWeeks;
-        for (uint i; i + j < length; ++i) {
-            APRsum += weeklyAPR[i + j];
-        }
+    // /**
+    //  * @dev APR is be multiplied by 1_000_000 to preserve decimal points.
+    //  */
+    // function _calculateAverageAPR(
+    //     uint _duration
+    // ) internal view returns (uint averageAPR) {
+    //     require(weeklyAPR.length > 0, "empty APR list"); //PROD better message
+    //     uint numOfWeeks = _duration / 1 weeks;
+    //     require(numOfWeeks == weeklyAPR.length, "length mismatch");
+    //     uint APRsum;
+    //     uint length = weeklyAPR.length;
+    //     uint j = weeklyAPR.length - numOfWeeks;
+    //     for (uint i; i + j < length; ++i) {
+    //         APRsum += weeklyAPR[i + j];
+    //     }
 
-        averageAPR = ((APRsum * DECIMALS_PRESERVATION) / numOfWeeks);
-    }
+    //     averageAPR = ((APRsum * DECIMALS_PRESERVATION) / numOfWeeks);
+    // }
 
     // ========================================
     //         VIEW
     // ========================================
 
     function displayReward(address _user) public view returns (uint reward) {
-        reward = _calculateReward(users[_user]);
+        Rewards.RewardsStorage storage rs = Rewards.rewardsStorage();
+        reward = Rewards._calculateReward(rs.users[_user]);
     }
 
     function displayStakeTime(address _user) public view returns (uint st) {
-        st = block.timestamp - users[_user].initTime;
+        Rewards.RewardsStorage storage rs = Rewards.rewardsStorage();
+        st = block.timestamp - rs.users[_user].lastInitTime;
     }
 
 }
