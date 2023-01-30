@@ -8,6 +8,7 @@ pragma solidity 0.8.17;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import "./interfaces/IStaking.sol";
 
 /**
  * users send ETH, and receives liquid Tokens in a 1:1 ratio.
@@ -18,7 +19,7 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 using SafeERC20 for IERC20;
 
-contract LiquidStaking is ERC20("quidETH", "qETH") {
+contract Staking is ERC20("quidETH", "qETH") {
     uint public constant DECIMALS_PRESERVATION = 1_000_000;
     uint totalStakes;
     uint private CUT;
@@ -38,23 +39,13 @@ contract LiquidStaking is ERC20("quidETH", "qETH") {
 
     receive() external payable {}
 
+    fallback() external payable {}
+
     // =======================================
     //        STAKING & REWARDS
     // =======================================
 
-    //ALERT until SHANGAÏ, unstaking is disallowed
-    function withdraw(uint _amount) external {
-        require(SHANGAI, "shangai not released"); //PROD: better message
-        require(users[msg.sender].totalUserStake - _amount >= 0, "underflow"); //PROD: better message
-        users[msg.sender].totalUserStake -= _amount;
-        _burn(msg.sender, _amount);
-        bool claimed = claim();
-        require(claimed, "not claimed"); //PROD better message
-        (bool sent, ) = msg.sender.call{value: _amount}("");
-        require(sent, "not sent"); //PROD better message
-    }
-
-    //CHECK set a minimum staking limit ?
+        //CHECK set a minimum staking limit ?
     function deposit() external payable {
         _mint(msg.sender, msg.value);
         users[msg.sender].totalUserStake += msg.value;
@@ -62,9 +53,27 @@ contract LiquidStaking is ERC20("quidETH", "qETH") {
         if (users[msg.sender].totalUserStake == 0) _claim(msg.sender);
     }
 
+    //ALERT until SHANGAÏ, unstaking is disallowed
+    function withdraw(uint _amount) external {
+        require(SHANGAI, "shangai not released"); //PROD: better message
+        require(users[msg.sender].totalUserStake - _amount >= 0, "underflow"); //PROD: better message
+        
+        users[msg.sender].totalUserStake -= _amount;
+        _burn(msg.sender, _amount);
+        bool claimed = claim();
+
+        require(claimed, "not claimed"); //PROD better message
+
+        (bool sent, ) = msg.sender.call{value: _amount}("");
+
+        require(sent, "not sent"); //PROD better message
+    }
+
+
     function claim() public returns (bool claimed) {
         claimed = _claim(msg.sender);
     }
+
 
     //TODO only allowed contract or address can call
     //CHECK SET AN ADDRESS AND AUTOMATISE + PROTECT WITH MULTISIG DESIGNATED ADDRESS CHANGE ?
