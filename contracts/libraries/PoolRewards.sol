@@ -6,7 +6,7 @@ struct User {
     uint lastInitTime;
 }
 
-library Rewards {
+library PoolRewards {
 
     ///@notice is using diamond storage pattern see from {eip2535}
 
@@ -24,7 +24,6 @@ bytes32 constant RewardsStorageSlot = keccak256("RewardsStorage");
 //Protocol Rewards
 struct RewardsStorage {
     mapping(address => User) users;
-    address poolAddress;
     uint[] weeklyAPR;
 }
 
@@ -38,6 +37,8 @@ function rewardsStorage() internal pure returns (RewardsStorage storage rs) {
 function receiveRewards() internal {}
 
 function userReward() internal returns(uint){}
+
+function updateRewards() internal {}
 
         //TODO: try/catch
     function _claim(address _user) internal returns (bool) {

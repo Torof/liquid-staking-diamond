@@ -7,4 +7,9 @@ contract Validators is Pool {
     //Verify is valid validator
     //Verify appropriate stake amount
     //Init staking pool
+
+    address validator;
+    constructor(address _poolManager) Pool(_poolManager){
+
+    }
 }

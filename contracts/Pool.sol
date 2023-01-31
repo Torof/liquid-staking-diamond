@@ -5,14 +5,18 @@ import "./security/Lock.sol";
 
 contract Pool is Lock{
     //A pool is tied to a validator
+    //Pool receives funds
     //users' lock for minimum deposit time
+    //Keep track of Pool stats
+    //use library
 
-    struct User {
-        uint stake;
+    uint totalStakes;
+    address immutable poolManager;
+
+    constructor(address _poolManager){
+        poolManager = _poolManager;
     }
 
-    struct Share {
-        uint share;
-    }
+
 
 }
