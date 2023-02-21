@@ -10,7 +10,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "./interfaces/IStaking.sol";
 import "./LiquidToken.sol";
-import "./PoolManager.sol";
+import "./PoolTower.sol";
 import {PoolRewards} from "./libraries/PoolRewards.sol";
 
 /**
@@ -39,7 +39,7 @@ contract Staking is LiquidToken {
     // =======================================
 
         //CHECK set a minimum staking limit ?
-    function deposit() external payable {
+    function deposit(address) external payable {
 
     }
 

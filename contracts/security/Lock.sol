@@ -8,4 +8,6 @@ contract Lock {
      * mapping users' lockTimestamp
      * can withdraw ?
      */
+
+    //Ensure the validator CANNOT withdraw its ETHER if some conditions aren't met
 }

@@ -3,13 +3,11 @@ pragma solidity 0.8.17;
 
 import "./Pool.sol";
 
-contract Validators is Pool {
+contract Validator {
     //Verify is valid validator
-    //Verify appropriate stake amount
+    //Register validator
+    //Track validators performance
+    //Verify appropriate balance
     //Init staking pool
 
-    address validator;
-    constructor(address _poolManager) Pool(_poolManager){
-
-    }
 }
