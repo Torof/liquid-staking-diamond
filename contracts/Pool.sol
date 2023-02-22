@@ -3,7 +3,7 @@ pragma solidity 0.8.17;
 
 import "./security/Lock.sol";
 
-contract Pool is Lock{
+contract Pool is Lock {
     //A pool is tied to a validator
     //Pool receives funds
     //Pool receives rewards
@@ -18,20 +18,15 @@ contract Pool is Lock{
     string NAME;
     mapping(address => bool) isParticipant;
 
-    // struct PoolInfo{
-    //     bytes32 identifier;
-    //     string name;
-    //     uint stakes;
-    //     uint participants;
-    // }
+    struct User {
+        uint stakes;
+        uint initime;
+    }
 
     constructor(address _VALIDATOR, string memory _poolName) payable {
         VALIDATOR = _VALIDATOR;
         NAME = _poolName;
         IDENTIFIER = bytes32(abi.encode(_VALIDATOR, _poolName, block.timestamp));
     }
-
-
-
 
 }
