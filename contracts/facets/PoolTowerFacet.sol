@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
-pragma solidity 0.8.17;
+pragma solidity 0.8.19;
 
-contract PoolTower {
+contract PoolTowerFacet {
     //Keep track of all pools
     //keep track of the pools a user has stakes in
     //Keep track of all app stakes and stats
@@ -21,7 +21,7 @@ contract PoolTower {
     }
 
     uint allStakes;
-    mapping(address => UserMain) usersInfo;
+    mapping(address => UserMain) usersInfoForAll;
     mapping(bytes32 => PoolInfo) allPools;
     bytes32[] poolIdentifiers;
 }

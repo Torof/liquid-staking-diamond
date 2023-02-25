@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
-pragma solidity 0.8.17;
+pragma solidity 0.8.19;
 
-import "./Pool.sol";
+import "../Pool.sol";
 
 contract Validator {
     //Verify is valid validator
