@@ -1,16 +1,17 @@
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
-pragma solidity 0.8.17;
+pragma solidity 0.8.19;
 
 struct User {
     uint stakes;
     uint lastInitTime;
+    uint claimableRewards;
 }
 
 library PoolRewards {
 
     ///@notice is using diamond storage pattern see from {eip2535}
 
-bytes32 constant RewardsStorageSlot = keccak256("RewardsStorage");
+    bytes32 constant RewardsStorageSlot = keccak256("rewards.storage");
 
     uint constant VALIDATOR_CUT = 0;
     uint constant USER_CUT = 0;
@@ -25,6 +26,7 @@ bytes32 constant RewardsStorageSlot = keccak256("RewardsStorage");
 struct RewardsStorage {
     mapping(address => User) users;
     uint[] weeklyAPR;
+    uint poolInitTime;
 }
 
 function rewardsStorage() internal pure returns (RewardsStorage storage rs) {

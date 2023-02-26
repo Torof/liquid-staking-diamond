@@ -8,20 +8,17 @@ contract PoolTowerFacet {
     //access a specific pool stats
     //register new pool
 
-    struct UserMain {
-        uint totalUserStake;
-        bytes32[] pools;
-    }
+    function register() external {}
 
-    struct PoolInfo{
-        bytes32 identifier;
-        string name;
-        uint stakes;
-        uint participants;
-    }
+    function fetchPoolByIdentifier(bytes32) external view {}
 
-    uint allStakes;
-    mapping(address => UserMain) usersInfoForAll;
-    mapping(bytes32 => PoolInfo) allPools;
-    bytes32[] poolIdentifiers;
+    function fetchPoolByAddress(address) external view {}
+
+    function appStakes() external view {}
+
+    function userPools() external view {}
+
+    function userStakesAll() external view {}
+
+    function userStakesOne(uint _index) external view {}
 }

@@ -11,5 +11,16 @@ contract ValidatorTower {
     //Track validators reputation
     //Verify appropriate balance
     //Init staking pool with validator as admin
+    //Register pool in pool tower upon creation
+
+    function verifyHasMasterNode() external {}
+
+    function registerAsValidator() external {}
+
+    function fetchValidator() external {}
+
+    function registerPool() external {}
+
+
 
 }

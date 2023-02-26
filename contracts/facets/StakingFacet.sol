@@ -6,12 +6,10 @@ pragma solidity 0.8.19;
  *
  */
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
 import "./interfaces/IStaking.sol";
-import "./facets/LiquidToken.sol";
+import "../LiquidToken.sol";
 import "./facets/PoolTower.sol";
-import {PoolRewards} from "./libraries/PoolRewards.sol";
 
 /**
  * users send ETH, and receives liquid Tokens in a 1:1 ratio.
@@ -21,7 +19,7 @@ import {PoolRewards} from "./libraries/PoolRewards.sol";
  */
 
 
-contract Staking is LiquidToken {
+contract StakingFacet is LiquidToken {
     bool SHANGAI;
 
 
@@ -38,14 +36,24 @@ contract Staking is LiquidToken {
     //        STAKING & REWARDS
     // =======================================
 
-        //CHECK set a minimum staking limit ?
-    function deposit(address) external payable {
+    function enter(address _poom) external payable {
 
     }
 
-    //ALERT until SHANGAÏ, unstaking is disallowed
-    function withdraw(uint _amount) external {
+        //CHECK set a minimum staking limit ?
+    function deposit(address _pool) external payable {
 
+    }
+
+
+
+    //ALERT until SHANGAÏ, unstaking is disallowed
+    function withdraw(uint _amount, address _pool) external {
+
+    }
+
+    function exit(address _pool) external {
+        
     }
 
 
