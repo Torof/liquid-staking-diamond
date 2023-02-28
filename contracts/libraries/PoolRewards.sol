@@ -27,6 +27,8 @@ struct RewardsStorage {
     mapping(address => User) users;
     uint[] weeklyAPR;
     uint poolInitTime;
+    uint participants;
+    
 }
 
 function rewardsStorage() internal pure returns (RewardsStorage storage rs) {

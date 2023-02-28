@@ -2,6 +2,7 @@
 pragma solidity 0.8.17;
 
 import "./security/Lock.sol";
+import "./libraries/PoolRewards.sol";
 
 contract Pool is Lock {
     //A pool is tied to a validator
@@ -24,9 +25,18 @@ contract Pool is Lock {
     }
 
     constructor(address _VALIDATOR, string memory _poolName) payable {
+        require(msg.value == 32 ether, "creation amount is 32");
         VALIDATOR = _VALIDATOR;
         NAME = _poolName;
         IDENTIFIER = bytes32(abi.encode(_VALIDATOR, _poolName, block.timestamp));
     }
+
+    function deposit() external {}
+
+    function userClaim() external {}
+
+    function returnRemainingLockTime(address _user) external {}
+
+
 
 }

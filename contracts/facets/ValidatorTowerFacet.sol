@@ -19,8 +19,8 @@ contract ValidatorTower {
 
     function fetchValidator() external {}
 
-    function registerPool() external {}
+    function initPool() external {}
 
-
+    function registerPooltoPoolTower() external {} ///TODO: internal connect to libPoolTwer
 
 }
