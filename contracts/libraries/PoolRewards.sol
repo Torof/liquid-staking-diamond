@@ -8,7 +8,6 @@ struct User {
 }
 
 library PoolRewards {
-
     ///@notice is using diamond storage pattern see from {eip2535}
 
     bytes32 constant RewardsStorageSlot = keccak256("rewards.storage");
@@ -18,33 +17,36 @@ library PoolRewards {
     uint constant DAO_CUT = 0;
     uint constant DECIMALS_PRESERVATION = 1_000_000;
 
-///@notice will be used by 4 contracts but should hold 1 accessible state for all
-//Total Rewards
-//Validator Rewards
-//Users Rewards
-//Protocol Rewards
-struct RewardsStorage {
-    mapping(address => User) users;
-    uint[] weeklyAPR;
-    uint poolInitTime;
-    uint participants;
-    
-}
+    ///@notice will be used by 4 contracts but should hold 1 accessible state for all
+    //Total Rewards
+    //Validator Rewards
+    //Users Rewards
+    //Protocol Rewards
+    struct RewardsStorage {
+        mapping(address => User) users;
+        uint[] weeklyAPR;
+        uint poolInitTime;
+        uint participants;
+    }
 
-function rewardsStorage() internal pure returns (RewardsStorage storage rs) {
-    bytes32 slot = RewardsStorageSlot;
+    function rewardsStorage()
+        internal
+        pure
+        returns (RewardsStorage storage rs)
+    {
+        bytes32 slot = RewardsStorageSlot;
         assembly {
             rs.slot := slot
         }
-}
+    }
 
-function receiveRewards() internal {}
+    function receiveRewards() internal {}
 
-function userReward() internal returns(uint){}
+    function userReward() internal returns (uint) {}
 
-function updateRewards() internal {}
+    function updateRewards() internal {}
 
-        //TODO: try/catch
+    //TODO: try/catch
     function _claim(address _user) internal returns (bool) {
         RewardsStorage storage rs = rewardsStorage();
         uint r = _calculateReward(rs.users[_user]);
@@ -68,8 +70,7 @@ function updateRewards() internal {}
         uint duration = block.timestamp - _user.lastInitTime;
         uint averageAPR = _calculateAverageAPR(duration);
         reward =
-            (((_user.stakes * averageAPR) / DECIMALS_PRESERVATION) /
-                52 weeks) *
+            (((_user.stakes * averageAPR) / DECIMALS_PRESERVATION) / 52 weeks) *
             duration;
     }
 
@@ -81,7 +82,7 @@ function updateRewards() internal {}
     ) internal view returns (uint averageAPR) {
         RewardsStorage storage rs = rewardsStorage();
         require(rs.weeklyAPR.length > 0, "empty APR list"); //PROD better message
-        
+
         uint numOfWeeks = _duration / 1 weeks;
         require(numOfWeeks == rs.weeklyAPR.length, "length mismatch");
         uint APRsum;

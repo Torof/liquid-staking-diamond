@@ -2,13 +2,13 @@
 pragma solidity 0.8.19;
 
 import "../Pool.sol";
-import "./Validator.sol";
+import "../Validator.sol";
 
 contract ValidatorTower {
     //Verify is valid validator
     //Register validators
     //Track validators performance
-    //Track validators reputation
+    //Track validators reputation //TODO: create reputation store
     //Verify appropriate balance
     //Init staking pool with validator as admin
     //Register pool in pool tower upon creation

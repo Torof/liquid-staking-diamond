@@ -10,7 +10,7 @@ using SafeERC20 for IERC20;
 contract LiquidToken is ERC20("quidETH", "qETH"){
 
     modifier contractOnly() {
-        requires(msg.sender == address.this);
+        require(msg.sender == address(this));
         _;
     }
 

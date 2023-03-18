@@ -6,10 +6,9 @@ pragma solidity 0.8.19;
  *
  */
 
-
-import "./interfaces/IStaking.sol";
+import "../interfaces/IStaking.sol";
 import "../LiquidToken.sol";
-import "./facets/PoolTower.sol";
+import "./PoolTowerFacet.sol";
 
 /**
  * users send ETH, and receives liquid Tokens in a 1:1 ratio.
@@ -18,13 +17,9 @@ import "./facets/PoolTower.sol";
  * quidETH is an erc20 token.
  */
 
-
 contract StakingFacet is LiquidToken {
-    bool SHANGAI;
-
-
     //TODO add events
-    event Claim(uint indexed _amount, bool _sent);
+    event Claim(uint256 indexed _amount, bool _sent);
     event Deposit();
     event Withdraw();
 
@@ -36,43 +31,25 @@ contract StakingFacet is LiquidToken {
     //        STAKING & REWARDS
     // =======================================
 
-    function enter(address _poom) external payable {
+    function enter(address _pool) external payable {}
 
-    }
-
-        //CHECK set a minimum staking limit ?
-    function deposit(address _pool) external payable {
-
-    }
-
-
+    //CHECK set a minimum staking limit ?
+    function depositTo(address _pool) external payable {}
 
     //ALERT until SHANGAÏ, unstaking is disallowed
-    function withdraw(uint _amount, address _pool) external {
+    function withdrawFrom(uint256 _amount, address _pool) external {}
 
-    }
+    function exit(address _pool) external {}
 
-    function exit(address _pool) external {
-        
-    }
-
-
-    function claim() public returns (bool claimed) {
-    }
-
-
-    //TODO only allowed contract or address can call
-    function openShangai() external {
-        SHANGAI = true;
-    }
+    function claimFrom() public returns (bool claimed) {}
 
     // ========================================
     //         VIEW
     // ========================================
 
-    function displayReward(address _user) public view returns (uint reward) {}
+    function displayReward(
+        address _user
+    ) public view returns (uint256 reward) {}
 
-    function displayStakeTime(address _user) public view returns (uint st) {}
-
+    function displayStakeTime(address _user) public view returns (uint256 st) {}
 }
-

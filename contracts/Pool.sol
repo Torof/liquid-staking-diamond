@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
-pragma solidity 0.8.17;
+pragma solidity ^0.8.17;
 
 import "./security/Lock.sol";
 import "./libraries/PoolRewards.sol";
@@ -19,11 +19,6 @@ contract Pool is Lock {
     string NAME;
     mapping(address => bool) isParticipant;
 
-    struct User {
-        uint stakes;
-        uint initime;
-    }
-
     constructor(address _VALIDATOR, string memory _poolName) payable {
         require(msg.value == 32 ether, "creation amount is 32");
         VALIDATOR = _VALIDATOR;
@@ -33,7 +28,9 @@ contract Pool is Lock {
 
     function deposit() external {}
 
-    function userClaim() external {}
+    function withdraw() external {}
+
+    function claim() external {}
 
     function returnRemainingLockTime(address _user) external {}
 
